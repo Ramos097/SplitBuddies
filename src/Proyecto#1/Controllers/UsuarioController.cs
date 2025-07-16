@@ -1,18 +1,20 @@
 ﻿using System;
-using Proyecto_1.Services;
+using Proyecto_1.Interfaces;
+
 
 namespace Proyecto_1.Controllers
 {
-    internal class UsuarioController
+    public class UsuarioController : IUsuarioController
+
     {
         private readonly IUsuario _usuarioService;
 
         public UsuarioController(IUsuario usuarioService)
         {
-            _usuarioService = usuarioService ?? throw new ArgumentNullException(nameof(usuarioService));
+            _usuarioService = usuarioService;
         }
 
-        public void AgregarUsuario(Models.Usuario usuario)
+       /* public void AgregarUsuario(Models.Usuario usuario)
         {
             if (usuario == null)
                 throw new ArgumentNullException(nameof(usuario), "El usuario no puede ser nulo.");
@@ -25,6 +27,6 @@ namespace Proyecto_1.Controllers
             }
 
             _usuarioService.AgregarUsuario(usuario);
-        }
+        } */
     }
 }

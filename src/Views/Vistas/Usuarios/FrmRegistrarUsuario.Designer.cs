@@ -1,7 +1,7 @@
 ﻿
 namespace Proyecto_1
 {
-    partial class Usuario
+    partial class FrmRegistrarUsuario
     {
         /// <summary>
         ///  Required designer variable.
@@ -40,6 +40,8 @@ namespace Proyecto_1
             txt_Contraseña = new TextBox();
             label4 = new Label();
             btn_AgregarUsuario = new Button();
+            txt_Id = new TextBox();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -56,7 +58,7 @@ namespace Proyecto_1
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(22, 48);
+            label1.Location = new Point(21, 92);
             label1.Name = "label1";
             label1.Size = new Size(134, 20);
             label1.TabIndex = 1;
@@ -65,43 +67,42 @@ namespace Proyecto_1
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(22, 108);
+            label2.Location = new Point(21, 152);
             label2.Name = "label2";
             label2.Size = new Size(54, 20);
             label2.TabIndex = 2;
             label2.Text = "Correo";
-            label2.Click += label2_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(22, 213);
+            label3.Location = new Point(21, 257);
             label3.Name = "label3";
             label3.Size = new Size(83, 20);
             label3.TabIndex = 3;
             label3.Text = "Contraseña";
-            label3.Click += label3_Click;
             // 
             // txt_NombreCompleto
             // 
-            txt_NombreCompleto.Location = new Point(200, 48);
+            txt_NombreCompleto.Location = new Point(199, 92);
             txt_NombreCompleto.Name = "txt_NombreCompleto";
             txt_NombreCompleto.Size = new Size(222, 27);
             txt_NombreCompleto.TabIndex = 4;
             // 
             // txt_Corrreo
             // 
-            txt_Corrreo.Location = new Point(200, 101);
+            txt_Corrreo.Location = new Point(199, 145);
             txt_Corrreo.Name = "txt_Corrreo";
             txt_Corrreo.Size = new Size(222, 27);
             txt_Corrreo.TabIndex = 5;
             // 
             // txt_Edad
             // 
-            txt_Edad.Location = new Point(200, 158);
+            txt_Edad.Location = new Point(199, 202);
             txt_Edad.Name = "txt_Edad";
             txt_Edad.Size = new Size(222, 27);
             txt_Edad.TabIndex = 6;
+            txt_Edad.KeyPress += txt_Edad_KeyPress;
             // 
             // pictureBox1
             // 
@@ -113,7 +114,7 @@ namespace Proyecto_1
             // 
             // txt_Contraseña
             // 
-            txt_Contraseña.Location = new Point(200, 213);
+            txt_Contraseña.Location = new Point(199, 257);
             txt_Contraseña.Name = "txt_Contraseña";
             txt_Contraseña.Size = new Size(222, 27);
             txt_Contraseña.TabIndex = 8;
@@ -121,29 +122,46 @@ namespace Proyecto_1
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(22, 165);
+            label4.Location = new Point(21, 209);
             label4.Name = "label4";
             label4.Size = new Size(43, 20);
             label4.TabIndex = 9;
             label4.Text = "Edad";
-            label4.Click += label4_Click;
             // 
-            // button2
+            // btn_AgregarUsuario
             // 
             btn_AgregarUsuario.Location = new Point(287, 343);
-            btn_AgregarUsuario.Name = "button2";
+            btn_AgregarUsuario.Name = "btn_AgregarUsuario";
             btn_AgregarUsuario.Size = new Size(207, 29);
             btn_AgregarUsuario.TabIndex = 10;
             btn_AgregarUsuario.Text = "Agregar Usuario";
             btn_AgregarUsuario.UseVisualStyleBackColor = true;
-            btn_AgregarUsuario.Click += this.button2_Click;
+            btn_AgregarUsuario.Click += btn_AgregarUsuario_Click;
             // 
-            // Usuario
+            // txt_Id
+            // 
+            txt_Id.Location = new Point(199, 48);
+            txt_Id.Name = "txt_Id";
+            txt_Id.Size = new Size(222, 27);
+            txt_Id.TabIndex = 12;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(21, 48);
+            label5.Name = "label5";
+            label5.Size = new Size(99, 20);
+            label5.TabIndex = 11;
+            label5.Text = "Identificación";
+            // 
+            // FrmUsuario
             // 
             AccessibleName = "Usuario";
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(txt_Id);
+            Controls.Add(label5);
             Controls.Add(btn_AgregarUsuario);
             Controls.Add(label4);
             Controls.Add(txt_Contraseña);
@@ -155,7 +173,7 @@ namespace Proyecto_1
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(button1);
-            Name = "Usuario";
+            Name = "FrmUsuario";
             Text = "Usuario";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -163,10 +181,7 @@ namespace Proyecto_1
             PerformLayout();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
 
@@ -181,5 +196,7 @@ namespace Proyecto_1
         private TextBox txt_Contraseña;
         private Label label4;
         private Button btn_AgregarUsuario;
+        private TextBox txt_Id;
+        private Label label5;
     }
 }
