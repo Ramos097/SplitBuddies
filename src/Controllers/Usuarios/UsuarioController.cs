@@ -54,7 +54,7 @@ namespace Proyecto_1.Controllers
         {
             return _usuarioService.ValidarIdentificacionRepetida(id);
         }
+        public IEnumerable<object> ObtenerTodosLosUsuarios() => _usuarioService.ObtenerUsuarios().Cast<object>();
 
-        
     }
 }

@@ -14,6 +14,6 @@ namespace Proyecto_1.Interfaces
 
         public Usuario ValidarAutenticacion(string id, string pass);
         public string ObtenerRutaImagen(string rutaRelativa);
-
+        IEnumerable<object> ObtenerTodosLosUsuarios();
     }
 }

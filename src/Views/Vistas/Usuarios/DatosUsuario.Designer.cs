@@ -39,107 +39,125 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            btnIrACrearGrupo = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // txt_Id
             // 
-            txt_Id.Location = new Point(210, 79);
+            txt_Id.Location = new Point(184, 59);
+            txt_Id.Margin = new Padding(3, 2, 3, 2);
             txt_Id.Name = "txt_Id";
             txt_Id.ReadOnly = true;
-            txt_Id.Size = new Size(222, 27);
+            txt_Id.Size = new Size(195, 23);
             txt_Id.TabIndex = 23;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(32, 79);
+            label5.Location = new Point(28, 59);
             label5.Name = "label5";
-            label5.Size = new Size(99, 20);
+            label5.Size = new Size(79, 15);
             label5.TabIndex = 22;
             label5.Text = "Identificación";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(32, 240);
+            label4.Location = new Point(28, 180);
             label4.Name = "label4";
-            label4.Size = new Size(43, 20);
+            label4.Size = new Size(33, 15);
             label4.TabIndex = 21;
             label4.Text = "Edad";
             // 
             // txt_Contraseña
             // 
-            txt_Contraseña.Location = new Point(210, 288);
+            txt_Contraseña.Location = new Point(184, 216);
+            txt_Contraseña.Margin = new Padding(3, 2, 3, 2);
             txt_Contraseña.Name = "txt_Contraseña";
             txt_Contraseña.ReadOnly = true;
-            txt_Contraseña.Size = new Size(222, 27);
+            txt_Contraseña.Size = new Size(195, 23);
             txt_Contraseña.TabIndex = 20;
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(650, 79);
+            pictureBox1.Location = new Point(569, 59);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(125, 119);
+            pictureBox1.Size = new Size(109, 89);
             pictureBox1.TabIndex = 19;
             pictureBox1.TabStop = false;
             // 
             // txt_Edad
             // 
-            txt_Edad.Location = new Point(210, 233);
+            txt_Edad.Location = new Point(184, 175);
+            txt_Edad.Margin = new Padding(3, 2, 3, 2);
             txt_Edad.Name = "txt_Edad";
             txt_Edad.ReadOnly = true;
-            txt_Edad.Size = new Size(222, 27);
+            txt_Edad.Size = new Size(195, 23);
             txt_Edad.TabIndex = 18;
             // 
             // txt_Corrreo
             // 
-            txt_Corrreo.Location = new Point(210, 176);
+            txt_Corrreo.Location = new Point(184, 132);
+            txt_Corrreo.Margin = new Padding(3, 2, 3, 2);
             txt_Corrreo.Name = "txt_Corrreo";
             txt_Corrreo.ReadOnly = true;
-            txt_Corrreo.Size = new Size(222, 27);
+            txt_Corrreo.Size = new Size(195, 23);
             txt_Corrreo.TabIndex = 17;
             // 
             // txt_NombreCompleto
             // 
-            txt_NombreCompleto.Location = new Point(210, 123);
+            txt_NombreCompleto.Location = new Point(184, 92);
+            txt_NombreCompleto.Margin = new Padding(3, 2, 3, 2);
             txt_NombreCompleto.Name = "txt_NombreCompleto";
             txt_NombreCompleto.ReadOnly = true;
-            txt_NombreCompleto.Size = new Size(222, 27);
+            txt_NombreCompleto.Size = new Size(195, 23);
             txt_NombreCompleto.TabIndex = 16;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(32, 288);
+            label3.Location = new Point(28, 216);
             label3.Name = "label3";
-            label3.Size = new Size(83, 20);
+            label3.Size = new Size(67, 15);
             label3.TabIndex = 15;
             label3.Text = "Contraseña";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(32, 183);
+            label2.Location = new Point(28, 137);
             label2.Name = "label2";
-            label2.Size = new Size(54, 20);
+            label2.Size = new Size(43, 15);
             label2.TabIndex = 14;
             label2.Text = "Correo";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(32, 123);
+            label1.Location = new Point(28, 92);
             label1.Name = "label1";
-            label1.Size = new Size(134, 20);
+            label1.Size = new Size(107, 15);
             label1.TabIndex = 13;
             label1.Text = "Nombre Completo";
             // 
+            // btnIrACrearGrupo
+            // 
+            btnIrACrearGrupo.Location = new Point(12, 270);
+            btnIrACrearGrupo.Name = "btnIrACrearGrupo";
+            btnIrACrearGrupo.Size = new Size(95, 23);
+            btnIrACrearGrupo.TabIndex = 24;
+            btnIrACrearGrupo.Text = "Crear Grupo";
+            btnIrACrearGrupo.UseVisualStyleBackColor = true;
+            btnIrACrearGrupo.Click += btnIrACrearGrupo_Click;
+            // 
             // DatosUsuario
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
+            Controls.Add(btnIrACrearGrupo);
             Controls.Add(txt_Id);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -151,6 +169,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "DatosUsuario";
             Text = "DatosUsuario";
             Load += DatosUsuario_Load;
@@ -172,5 +191,6 @@
         private Label label3;
         private Label label2;
         private Label label1;
+        private Button btnIrACrearGrupo;
     }
 }
