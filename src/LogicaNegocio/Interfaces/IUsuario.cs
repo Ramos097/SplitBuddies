@@ -13,5 +13,6 @@ namespace Proyecto_1.Interfaces
         string CopiarImagen(string rutaOriginal);
 
         Usuario ValidarAutenticacion(string id, string pass);
+        object ObtenerTodosLosUsuarios();
     }
 }

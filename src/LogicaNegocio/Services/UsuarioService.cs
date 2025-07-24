@@ -141,5 +141,10 @@ namespace Proyecto_1.Services
             }
             return null; // Autenticación fallida
         }
+
+        public object ObtenerTodosLosUsuarios()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

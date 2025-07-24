@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Models;
+using Proyecto_1.Controllers;
+using Proyecto_1.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Models;
-using Proyecto_1.Controllers;
-using Proyecto_1.Interfaces;
+using Views.Vistas.Grupos;
+using Proyecto_1.Services;
+using LogicaNegocio.Services;
 
 namespace Views.Vistas.Usuarios
 {
@@ -21,7 +24,7 @@ namespace Views.Vistas.Usuarios
         public DatosUsuario(Usuario user)
         {
             InitializeComponent();
-            _usuarioController = new UsuarioController(); 
+            _usuarioController = new UsuarioController();
 
             _usuario = user;
             cargarDatos();
@@ -54,7 +57,21 @@ namespace Views.Vistas.Usuarios
             }
         }
 
+        private void btnCrearGrupo_Click(object sender, EventArgs e)
+        {
+            var grupoService = new LogicaNegocio.Services.GrupoService();
+            var grupoController = new Proyecto_1.Controllers.GrupoController(grupoService);
 
+            FormcrearGrupo crearGrupoForm = new FormcrearGrupo(grupoController, _usuarioController);
+            crearGrupoForm.Show();
+        }
 
+        private void btnIrACrearGrupo_Click(object sender, EventArgs e)
+        {
+            var grupoService = new GrupoService();
+            var grupoController = new GrupoController(grupoService);
+            var crearGrupoForm = new FormcrearGrupo(grupoController, _usuarioController);
+            crearGrupoForm.Show();
+        }
     }
 }
