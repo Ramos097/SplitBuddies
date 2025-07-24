@@ -6,5 +6,13 @@
     "Edad": 24,
     "Contrasenia": "1234",
     "Imagen": "imgs\\1273304.jpg"
+  },
+  {
+    "Identificacion": "12345",
+    "NombreCompleto": "Marvin",
+    "Correo": "marvin@gmail.com",
+    "Edad": 27,
+    "Contrasenia": "12345",
+    "Imagen": "imgs\\icono-perfil-usuario-estilo-plano-ilustracion-vector-avatar-miembro-sobre-fondo-aislado-concepto-negocio-signo-permiso-humano_157943-15752.avif"
   }
 ]
