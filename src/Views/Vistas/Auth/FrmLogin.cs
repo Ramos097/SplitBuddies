@@ -11,7 +11,8 @@ using Models;
 using Proyecto_1;
 using Proyecto_1.Controllers;
 using Proyecto_1.Interfaces;
-using Views.Vistas.Usuarios;
+using Views.Vistas.Menus;
+
 
 namespace Views.Vistas.Auth
 {
@@ -45,8 +46,7 @@ namespace Views.Vistas.Auth
                 try
                 {
                     Usuario usuario = _usuarioController.ValidarAutenticacion(txtId.Text.Trim(), txtPass.Text.Trim());
-                    MessageBox.Show("Inicio de sesión exitoso.");
-                    DatosUsuario ventana = new DatosUsuario(usuario);
+                    MenuPrincipal ventana = new MenuPrincipal(usuario);
                     ventana.Show();
                     this.Hide();
                 }

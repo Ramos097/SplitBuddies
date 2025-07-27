@@ -11,9 +11,9 @@ namespace Proyecto_1
 
         public FrmRegistrarUsuario()
         {
-        
+
             InitializeComponent();
-            _usuarioController = new UsuarioController(); 
+            _usuarioController = new UsuarioController();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,50 +41,60 @@ namespace Proyecto_1
         //    OpenFileDialog AbrirImagen = new OpenFileDialog();
         //    AbrirImagen.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
 
-            //    if (AbrirImagen.ShowDialog() == DialogResult.OK)
-            //    {
-            //        // Mostrar imagen en PictureBox
-            //        pictureBox1.ImageLocation = AbrirImagen.FileName;
-            //        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        //    if (AbrirImagen.ShowDialog() == DialogResult.OK)
+        //    {
+        //        // Mostrar imagen en PictureBox
+        //        pictureBox1.ImageLocation = AbrirImagen.FileName;
+        //        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            //        // Ruta original
-            //        string imagenOriginal = AbrirImagen.FileName;
+        //        // Ruta original
+        //        string imagenOriginal = AbrirImagen.FileName;
 
-            //        // Obtener ruta base del proyecto (sube desde bin/Debug)
-            //        string? basePath = AppContext.BaseDirectory;
-            //        string? rutaProyecto = Directory.GetParent(basePath)?.Parent?.Parent?.Parent?.Parent?.FullName;
+        //        // Obtener ruta base del proyecto (sube desde bin/Debug)
+        //        string? basePath = AppContext.BaseDirectory;
+        //        string? rutaProyecto = Directory.GetParent(basePath)?.Parent?.Parent?.Parent?.Parent?.FullName;
 
-            //        // Ruta destino final
-            //        string carpetaDestino = Path.Combine(rutaProyecto!, "LogicaNegocio", "Almacenamiento", "imgs");
+        //        // Ruta destino final
+        //        string carpetaDestino = Path.Combine(rutaProyecto!, "LogicaNegocio", "Almacenamiento", "imgs");
 
-            //        // Crear carpeta si no existe
-            //        if (!Directory.Exists(carpetaDestino))
-            //            Directory.CreateDirectory(carpetaDestino);
+        //        // Crear carpeta si no existe
+        //        if (!Directory.Exists(carpetaDestino))
+        //            Directory.CreateDirectory(carpetaDestino);
 
-            //        // Nombre del archivo
-            //        string nombreArchivo = Path.GetFileName(imagenOriginal);
-            //        string destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
+        //        // Nombre del archivo
+        //        string nombreArchivo = Path.GetFileName(imagenOriginal);
+        //        string destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
 
-            //        // Evitar duplicados
-            //        if (File.Exists(destinoFinal))
-            //        {
-            //            string ext = Path.GetExtension(nombreArchivo);
-            //            string nombreSinExt = Path.GetFileNameWithoutExtension(nombreArchivo);
-            //            nombreArchivo = $"{nombreSinExt}_{DateTime.Now.Ticks}{ext}";
-            //            destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
-            //        }
+        //        // Evitar duplicados
+        //        if (File.Exists(destinoFinal))
+        //        {
+        //            string ext = Path.GetExtension(nombreArchivo);
+        //            string nombreSinExt = Path.GetFileNameWithoutExtension(nombreArchivo);
+        //            nombreArchivo = $"{nombreSinExt}_{DateTime.Now.Ticks}{ext}";
+        //            destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
+        //        }
 
-            //        // Copiar imagen
-            //        File.Copy(imagenOriginal, destinoFinal);
+        //        // Copiar imagen
+        //        File.Copy(imagenOriginal, destinoFinal);
 
-            //        // Guardar ruta relativa
-            //        rutaRelativaImagen = Path.Combine("imgs", nombreArchivo);
+        //        // Guardar ruta relativa
+        //        rutaRelativaImagen = Path.Combine("imgs", nombreArchivo);
 
-            //    }
-            //}
+        //    }
+        //}
 
 
 
+
+
+
+        private void txt_Edad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Evita que se ingresen caracteres no numéricos
+            }
+        }
 
         private void btn_AgregarUsuario_Click(object sender, EventArgs e)
         {
@@ -103,13 +113,13 @@ namespace Proyecto_1
                 return;
             }
 
-            if (_usuarioController.ValidarIdentificacionRepetida(txt_Id.Text.Trim()) ==true)
+            if (_usuarioController.ValidarIdentificacionRepetida(txt_Id.Text.Trim()) == true)
             {
                 MessageBox.Show("La identificación ya está registrada. Por favor, ingrese una identificación diferente.");
                 return;
             }
 
-            
+
             Usuario usuario = new Usuario
             {
                 Identificacion = txt_Id.Text.Trim(),
@@ -121,7 +131,7 @@ namespace Proyecto_1
 
             };
 
-            
+
 
             try
             {
@@ -136,16 +146,21 @@ namespace Proyecto_1
             {
                 MessageBox.Show($"Error al agregar el usuario: {ex.Message}");
             }
-
-
-
         }
 
-        private void txt_Edad_KeyPress(object sender, KeyPressEventArgs e)
+        private void btnCargarFoto_Click(object sender, EventArgs e)
         {
-            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            OpenFileDialog AbrirImagen = new OpenFileDialog();
+
+            //Abre el explorador de archivos
+
+            if (AbrirImagen.ShowDialog() == DialogResult.OK)
             {
-                e.Handled = true; // Evita que se ingresen caracteres no numéricos
+                //Si el usuario selecciona un archivo, lo muestra en el PictureBox
+                pictureBox1.ImageLocation = AbrirImagen.FileName;
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                rutaRelativaImagen = AbrirImagen.FileName;
+
             }
         }
     }
