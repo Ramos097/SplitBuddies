@@ -54,6 +54,7 @@
             txtNombreGrupo.Name = "txtNombreGrupo";
             txtNombreGrupo.Size = new Size(100, 23);
             txtNombreGrupo.TabIndex = 1;
+            txtNombreGrupo.TextChanged += txtNombreGrupo_TextChanged;
             // 
             // lblImagen
             // 
@@ -71,6 +72,7 @@
             pbImagenGrupo.Size = new Size(131, 21);
             pbImagenGrupo.TabIndex = 3;
             pbImagenGrupo.TabStop = false;
+            pbImagenGrupo.Click += pbImagenGrupo_Click;
             // 
             // btnSeleccionarImagen
             // 
@@ -112,7 +114,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(649, 250);
             Controls.Add(btnCrearGrupo);
             Controls.Add(clbMiembros);
             Controls.Add(lblMiembros);

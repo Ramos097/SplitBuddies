@@ -83,5 +83,15 @@ namespace Views.Vistas.Grupos
             MessageBox.Show("Grupo creado exitosamente.");
             this.Close();
         }
+
+        private void txtNombreGrupo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pbImagenGrupo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

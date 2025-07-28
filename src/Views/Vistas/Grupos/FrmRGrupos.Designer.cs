@@ -30,19 +30,19 @@
         {
             PanelPlantilla = new Panel();
             panel3 = new Panel();
-            btnPagar = new Button();
-            texttxtPlantilla2 = new TextBox();
-            txttxtPlantillaMultilinea = new TextBox();
-            dtptxtPlantillaFecha = new DateTimePicker();
-            label4 = new Label();
-            label1 = new Label();
-            label2 = new Label();
-            label5 = new Label();
-            txtPlantilla1 = new TextBox();
+            btnSeleccionarImagen = new Button();
+            clbMiembros = new CheckedListBox();
+            pbImagenGrupo = new PictureBox();
+            btnCrearGrupo = new Button();
+            lblImagen = new Label();
+            lblMiembros = new Label();
+            lblNombreGrupo = new Label();
+            txtNombreGrupo = new TextBox();
             panel2 = new Panel();
             label3 = new Label();
             PanelPlantilla.SuspendLayout();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbImagenGrupo).BeginInit();
             panel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,115 +59,101 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(btnPagar);
-            panel3.Controls.Add(texttxtPlantilla2);
-            panel3.Controls.Add(txttxtPlantillaMultilinea);
-            panel3.Controls.Add(dtptxtPlantillaFecha);
-            panel3.Controls.Add(label4);
-            panel3.Controls.Add(label1);
-            panel3.Controls.Add(label2);
-            panel3.Controls.Add(label5);
-            panel3.Controls.Add(txtPlantilla1);
+            panel3.Controls.Add(btnSeleccionarImagen);
+            panel3.Controls.Add(clbMiembros);
+            panel3.Controls.Add(pbImagenGrupo);
+            panel3.Controls.Add(btnCrearGrupo);
+            panel3.Controls.Add(lblImagen);
+            panel3.Controls.Add(lblMiembros);
+            panel3.Controls.Add(lblNombreGrupo);
+            panel3.Controls.Add(txtNombreGrupo);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(0, 47);
             panel3.Name = "panel3";
             panel3.Size = new Size(594, 346);
             panel3.TabIndex = 2;
             // 
-            // btnPagar
+            // btnSeleccionarImagen
             // 
-            btnPagar.BackColor = Color.LightGreen;
-            btnPagar.FlatAppearance.BorderSize = 0;
-            btnPagar.FlatStyle = FlatStyle.Flat;
-            btnPagar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnPagar.Location = new Point(218, 285);
-            btnPagar.Margin = new Padding(3, 2, 3, 2);
-            btnPagar.Name = "btnPagar";
-            btnPagar.Size = new Size(110, 37);
-            btnPagar.TabIndex = 16;
-            btnPagar.Text = "Pagar";
-            btnPagar.UseVisualStyleBackColor = false;
+            btnSeleccionarImagen.Location = new Point(365, 80);
+            btnSeleccionarImagen.Name = "btnSeleccionarImagen";
+            btnSeleccionarImagen.Size = new Size(75, 23);
+            btnSeleccionarImagen.TabIndex = 19;
+            btnSeleccionarImagen.Text = "Seleccionar";
+            btnSeleccionarImagen.UseVisualStyleBackColor = true;
+            btnSeleccionarImagen.Click += btnSeleccionarImagen_Click_1;
             // 
-            // texttxtPlantilla2
+            // clbMiembros
             // 
-            texttxtPlantilla2.Font = new Font("Segoe UI", 11F);
-            texttxtPlantilla2.Location = new Point(218, 84);
-            texttxtPlantilla2.Margin = new Padding(3, 2, 3, 2);
-            texttxtPlantilla2.Name = "texttxtPlantilla2";
-            texttxtPlantilla2.Size = new Size(139, 27);
-            texttxtPlantilla2.TabIndex = 15;
+            clbMiembros.FormattingEnabled = true;
+            clbMiembros.Location = new Point(218, 135);
+            clbMiembros.Name = "clbMiembros";
+            clbMiembros.Size = new Size(222, 58);
+            clbMiembros.TabIndex = 18;
             // 
-            // txttxtPlantillaMultilinea
+            // pbImagenGrupo
             // 
-            txttxtPlantillaMultilinea.Font = new Font("Segoe UI", 11F);
-            txttxtPlantillaMultilinea.Location = new Point(218, 173);
-            txttxtPlantillaMultilinea.Margin = new Padding(3, 2, 3, 2);
-            txttxtPlantillaMultilinea.Multiline = true;
-            txttxtPlantillaMultilinea.Name = "txttxtPlantillaMultilinea";
-            txttxtPlantillaMultilinea.ScrollBars = ScrollBars.Vertical;
-            txttxtPlantillaMultilinea.Size = new Size(298, 83);
-            txttxtPlantillaMultilinea.TabIndex = 14;
+            pbImagenGrupo.Location = new Point(218, 80);
+            pbImagenGrupo.Name = "pbImagenGrupo";
+            pbImagenGrupo.Size = new Size(131, 21);
+            pbImagenGrupo.TabIndex = 17;
+            pbImagenGrupo.TabStop = false;
             // 
-            // dtptxtPlantillaFecha
+            // btnCrearGrupo
             // 
-            dtptxtPlantillaFecha.Location = new Point(218, 132);
-            dtptxtPlantillaFecha.Margin = new Padding(3, 2, 3, 2);
-            dtptxtPlantillaFecha.Name = "dtptxtPlantillaFecha";
-            dtptxtPlantillaFecha.Size = new Size(219, 23);
-            dtptxtPlantillaFecha.TabIndex = 13;
+            btnCrearGrupo.BackColor = Color.LightGreen;
+            btnCrearGrupo.FlatAppearance.BorderSize = 0;
+            btnCrearGrupo.FlatStyle = FlatStyle.Flat;
+            btnCrearGrupo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnCrearGrupo.Location = new Point(218, 285);
+            btnCrearGrupo.Margin = new Padding(3, 2, 3, 2);
+            btnCrearGrupo.Name = "btnCrearGrupo";
+            btnCrearGrupo.Size = new Size(110, 37);
+            btnCrearGrupo.TabIndex = 16;
+            btnCrearGrupo.Text = "Crear";
+            btnCrearGrupo.UseVisualStyleBackColor = false;
             // 
-            // label4
+            // lblImagen
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(43, 130);
-            label4.Name = "label4";
-            label4.Size = new Size(65, 20);
-            label4.TabIndex = 12;
-            label4.Text = "Plantilla";
+            lblImagen.AutoSize = true;
+            lblImagen.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblImagen.ForeColor = Color.White;
+            lblImagen.Location = new Point(43, 80);
+            lblImagen.Name = "lblImagen";
+            lblImagen.Size = new Size(139, 20);
+            lblImagen.TabIndex = 11;
+            lblImagen.Text = "Imagen del Grupo:";
             // 
-            // label1
+            // lblMiembros
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(43, 80);
-            label1.Name = "label1";
-            label1.Size = new Size(65, 20);
-            label1.TabIndex = 11;
-            label1.Text = "Plantilla";
+            lblMiembros.AutoSize = true;
+            lblMiembros.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMiembros.ForeColor = Color.White;
+            lblMiembros.Location = new Point(39, 135);
+            lblMiembros.Name = "lblMiembros";
+            lblMiembros.Size = new Size(159, 20);
+            lblMiembros.TabIndex = 10;
+            lblMiembros.Text = "Seleccionar Miembro:";
             // 
-            // label2
+            // lblNombreGrupo
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(43, 166);
-            label2.Name = "label2";
-            label2.Size = new Size(65, 20);
-            label2.TabIndex = 10;
-            label2.Text = "Plantilla";
+            lblNombreGrupo.AutoSize = true;
+            lblNombreGrupo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblNombreGrupo.ForeColor = Color.White;
+            lblNombreGrupo.Location = new Point(43, 38);
+            lblNombreGrupo.Name = "lblNombreGrupo";
+            lblNombreGrupo.Size = new Size(151, 20);
+            lblNombreGrupo.TabIndex = 9;
+            lblNombreGrupo.Text = "Nombres del Grupo:";
             // 
-            // label5
+            // txtNombreGrupo
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(43, 38);
-            label5.Name = "label5";
-            label5.Size = new Size(65, 20);
-            label5.TabIndex = 9;
-            label5.Text = "Plantilla";
-            // 
-            // txtPlantilla1
-            // 
-            txtPlantilla1.Font = new Font("Segoe UI", 11F);
-            txtPlantilla1.Location = new Point(218, 39);
-            txtPlantilla1.Margin = new Padding(3, 2, 3, 2);
-            txtPlantilla1.Name = "txtPlantilla1";
-            txtPlantilla1.Size = new Size(190, 27);
-            txtPlantilla1.TabIndex = 8;
+            txtNombreGrupo.Font = new Font("Segoe UI", 11F);
+            txtNombreGrupo.Location = new Point(218, 39);
+            txtNombreGrupo.Margin = new Padding(3, 2, 3, 2);
+            txtNombreGrupo.Name = "txtNombreGrupo";
+            txtNombreGrupo.Size = new Size(190, 27);
+            txtNombreGrupo.TabIndex = 8;
             // 
             // panel2
             // 
@@ -200,6 +186,7 @@
             PanelPlantilla.ResumeLayout(false);
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbImagenGrupo).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ResumeLayout(false);
@@ -209,16 +196,15 @@
 
         private Panel PanelPlantilla;
         private Panel panel3;
-        private Button btnPagar;
-        private TextBox texttxtPlantilla2;
-        private TextBox txttxtPlantillaMultilinea;
-        private DateTimePicker dtptxtPlantillaFecha;
-        private Label label4;
-        private Label label1;
-        private Label label2;
-        private Label label5;
-        private TextBox txtPlantilla1;
+        private Button btnCrearGrupo;
+        private Label lblImagen;
+        private Label lblMiembros;
+        private Label lblNombreGrupo;
+        private TextBox txtNombreGrupo;
         private Panel panel2;
         private Label label3;
+        private PictureBox pbImagenGrupo;
+        private CheckedListBox clbMiembros;
+        private Button btnSeleccionarImagen;
     }
 }
