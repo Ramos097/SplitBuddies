@@ -112,6 +112,7 @@
             btnCrearGrupo.TabIndex = 16;
             btnCrearGrupo.Text = "Crear";
             btnCrearGrupo.UseVisualStyleBackColor = false;
+            btnCrearGrupo.Click += btnCrearGrupo_Click_1;
             // 
             // lblImagen
             // 
