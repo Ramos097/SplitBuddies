@@ -1,5 +1,4 @@
-﻿using Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Models;
+using Proyecto_1.Services;
 
 namespace Views.Gastos
 {
@@ -22,7 +23,27 @@ namespace Views.Gastos
 
         private void btnPagar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Pago el usuario "+ _usuario.Identificacion);
+            try
+            {
+                var gastoService = new GastoService();
+
+                var nuevoGasto = new Gasto
+                {
+                    Identificacion = _usuario.Identificacion,
+                    Monto = decimal.Parse(txtMonto.Text),
+                    Descripcion = txtDescripcion.Text,
+                    Fecha = DateTime.Now
+                };
+
+                gastoService.AgregarGasto(nuevoGasto);
+
+                MessageBox.Show("Gasto registrado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al registrar gasto: " + ex.Message);
+            }
         }
+
     }
 }

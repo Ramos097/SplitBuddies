@@ -1,0 +1,26 @@
+[
+  {
+    "Identificacion": "123",
+    "Descripcion": "pago de agua\r\n",
+    "Monto": 12500,
+    "Fecha": "2025-07-29T11:38:06.6935981-06:00"
+  },
+  {
+    "Identificacion": "123",
+    "Descripcion": "pago de luz",
+    "Monto": 13200,
+    "Fecha": "2025-07-29T11:39:47.5990468-06:00"
+  },
+  {
+    "Identificacion": "123",
+    "Descripcion": "pago de agua",
+    "Monto": 12000,
+    "Fecha": "2025-07-29T11:41:16.3573966-06:00"
+  },
+  {
+    "Identificacion": "123",
+    "Descripcion": "ad",
+    "Monto": 123,
+    "Fecha": "2025-07-29T11:42:19.8195452-06:00"
+  }
+]
