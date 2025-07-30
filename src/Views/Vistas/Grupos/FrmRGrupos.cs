@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Views.Vistas.Menus;
 
 namespace Views.Vistas.Grupos
 {
@@ -101,6 +102,54 @@ namespace Views.Vistas.Grupos
             rutaImagenSeleccionada = ofd.FileName;
             pbImagenGrupo.Image = Image.FromFile(rutaImagenSeleccionada);
             pbImagenGrupo.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void btnCrearGrupo_Click_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNombreGrupo.Text) || string.IsNullOrEmpty(rutaImagenSeleccionada))
+            {
+                MessageBox.Show("Debe ingresar un nombre y seleccionar una imagen.");
+                return;
+            }
+
+            var miembros = clbMiembros.CheckedItems.Cast<Usuario>().ToList();
+
+            if (miembros.Count == 0)
+            {
+                MessageBox.Show("Debe seleccionar al menos un miembro.");
+                return;
+            }
+
+            string carpetaDestino = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "imagenes_grupo");
+            if (!Directory.Exists(carpetaDestino))
+                Directory.CreateDirectory(carpetaDestino);
+
+            string nombreImagen = Path.GetFileName(rutaImagenSeleccionada);
+            string rutaFinal = Path.Combine(carpetaDestino, nombreImagen);
+            File.Copy(rutaImagenSeleccionada, rutaFinal, true);
+
+            Grupo nuevoGrupo = new Grupo
+            {
+                Id = Guid.NewGuid().ToString(),
+                Nombre = txtNombreGrupo.Text.Trim(),
+                Imagen = rutaFinal,
+                Miembros = miembros
+            };
+
+            _grupoController.CrearGrupo(nuevoGrupo);
+            MessageBox.Show("Grupo creado exitosamente.");
+
+            // 🔁 Abre el menú principal
+            MenuPrincipal menu = new MenuPrincipal(); // puedes pasarle el usuario si lo necesitas
+            menu.Show();
+
+            // 🔒 Cierra el formulario actual
+            this.Close();
+        }
+
+        private void Close()
+        {
+            throw new NotImplementedException();
         }
     }
 }

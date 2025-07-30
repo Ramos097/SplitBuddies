@@ -27,6 +27,11 @@ namespace Views.Vistas.Menus
             cargarDatos();
 
         }
+
+        public MenuPrincipal()
+        {
+        }
+
         private void cargarDatos()
         {
 
