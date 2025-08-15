@@ -1,4 +1,4 @@
-    [
+[
   {
     "Identificacion": "123",
     "Descripcion": "pago de agua\r\n",
@@ -22,5 +22,11 @@
     "Descripcion": "ad",
     "Monto": 123,
     "Fecha": "2025-07-29T11:42:19.8195452-06:00"
+  },
+  {
+    "Identificacion": "12740099",
+    "Descripcion": "pago de agua",
+    "Monto": 12300,
+    "Fecha": "2025-07-30T16:14:36.1182574-06:00"
   }
 ]
