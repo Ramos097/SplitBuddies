@@ -1,166 +1,139 @@
-using Controllers.Controladores;
+﻿using Controllers.Controladores;
 using Models;
 using Proyecto_1.Interfaces;
 using Views.Vistas.Auth;
 
 namespace Proyecto_1
 {
+    // Formulario de registro de usuario
     public partial class FrmRegistrarUsuario : Form
     {
+        // Controlador para manejar operaciones relacionadas con usuarios
         private readonly IUsuarioController _usuarioController;
 
+        // Constructor
         public FrmRegistrarUsuario()
         {
-
-            InitializeComponent();
-            _usuarioController = new UsuarioController();
+            InitializeComponent(); // Inicializa los componentes gráficos
+            _usuarioController = new UsuarioController(); // Se instancia el controlador de usuarios
         }
 
+        // Evento que se ejecuta al cargar el formulario
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            // Actualmente no hace nada
         }
+
+        // Ruta de la imagen seleccionada (inicialmente vacía)
         private string rutaRelativaImagen = "";
+
+        // Evento del botón para cargar imagen (button1)
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog AbrirImagen = new OpenFileDialog();
+            OpenFileDialog AbrirImagen = new OpenFileDialog(); // Abre explorador de archivos
 
-            //Abre el explorador de archivos
-
+            // Si el usuario selecciona un archivo válido
             if (AbrirImagen.ShowDialog() == DialogResult.OK)
             {
-                //Si el usuario selecciona un archivo, lo muestra en el PictureBox
+                // Se muestra la imagen seleccionada en el PictureBox
                 pictureBox1.ImageLocation = AbrirImagen.FileName;
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                rutaRelativaImagen = AbrirImagen.FileName;
 
+                // Se guarda la ruta de la imagen seleccionada
+                rutaRelativaImagen = AbrirImagen.FileName;
             }
         }
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    OpenFileDialog AbrirImagen = new OpenFileDialog();
-        //    AbrirImagen.Filter = "Archivos de imagen (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
 
-        //    if (AbrirImagen.ShowDialog() == DialogResult.OK)
-        //    {
-        //        // Mostrar imagen en PictureBox
-        //        pictureBox1.ImageLocation = AbrirImagen.FileName;
-        //        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        /*
+        ⚠️ Código alternativo comentado para cargar imagen:
+        Este código copia la imagen seleccionada a una carpeta fija dentro del proyecto 
+        (LogicaNegocio/Almacenamiento/imgs) y evita duplicados al renombrar si es necesario.
+        Guarda la ruta relativa en lugar de la ruta absoluta.
+        */
 
-        //        // Ruta original
-        //        string imagenOriginal = AbrirImagen.FileName;
-
-        //        // Obtener ruta base del proyecto (sube desde bin/Debug)
-        //        string? basePath = AppContext.BaseDirectory;
-        //        string? rutaProyecto = Directory.GetParent(basePath)?.Parent?.Parent?.Parent?.Parent?.FullName;
-
-        //        // Ruta destino final
-        //        string carpetaDestino = Path.Combine(rutaProyecto!, "LogicaNegocio", "Almacenamiento", "imgs");
-
-        //        // Crear carpeta si no existe
-        //        if (!Directory.Exists(carpetaDestino))
-        //            Directory.CreateDirectory(carpetaDestino);
-
-        //        // Nombre del archivo
-        //        string nombreArchivo = Path.GetFileName(imagenOriginal);
-        //        string destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
-
-        //        // Evitar duplicados
-        //        if (File.Exists(destinoFinal))
-        //        {
-        //            string ext = Path.GetExtension(nombreArchivo);
-        //            string nombreSinExt = Path.GetFileNameWithoutExtension(nombreArchivo);
-        //            nombreArchivo = $"{nombreSinExt}_{DateTime.Now.Ticks}{ext}";
-        //            destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
-        //        }
-
-        //        // Copiar imagen
-        //        File.Copy(imagenOriginal, destinoFinal);
-
-        //        // Guardar ruta relativa
-        //        rutaRelativaImagen = Path.Combine("imgs", nombreArchivo);
-
-        //    }
-        //}
-
-
-
-
-
-
+        // Validación para que en el campo edad solo se permitan números
         private void txt_Edad_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Solo permite dígitos y teclas de control (ejemplo: retroceso)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true; // Evita que se ingresen caracteres no num�ricos
+                e.Handled = true; // Bloquea el ingreso de letras o símbolos
             }
         }
 
+        // Evento del botón para agregar usuario
         private void btn_AgregarUsuario_Click(object sender, EventArgs e)
         {
+            // Validación de campos obligatorios
             if (string.IsNullOrEmpty(txt_NombreCompleto.Text.Trim()) ||
                 string.IsNullOrEmpty(txt_Corrreo.Text.Trim()) ||
-                string.IsNullOrEmpty(txt_Contrase�a.Text.Trim()) ||
+                string.IsNullOrEmpty(txt_Contraseña.Text.Trim()) ||
                 string.IsNullOrEmpty(txt_Id.Text.Trim()))
             {
                 MessageBox.Show("Por favor, complete todos los campos obligatorios.");
                 return;
             }
 
+            // Validación de que haya imagen seleccionada
             if (string.IsNullOrEmpty(rutaRelativaImagen))
             {
                 MessageBox.Show("Por favor, seleccione una imagen para el usuario.");
                 return;
             }
 
+            // Validación de identificación única
             if (_usuarioController.ctr_ValidarIdentificacionRepetida(txt_Id.Text.Trim()) == true)
             {
-                MessageBox.Show("La identificaci�n ya est� registrada. Por favor, ingrese una identificaci�n diferente.");
+                MessageBox.Show("La identificación ya está registrada. Por favor, ingrese una identificación diferente.");
                 return;
             }
 
-
+            // Se construye el objeto Usuario con la información del formulario
             Usuario usuario = new Usuario
             {
                 Identificacion = txt_Id.Text.Trim(),
                 NombreCompleto = txt_NombreCompleto.Text.Trim(),
                 Correo = txt_Corrreo.Text.Trim(),
-                Edad = int.TryParse(txt_Edad.Text.Trim(), out int edad) ? edad : 0,
-                Contrasenia = txt_Contrase�a.Text.Trim(),
-                Imagen = rutaRelativaImagen // La imagen se asignar� despu�s de copiarla
-
+                Edad = int.TryParse(txt_Edad.Text.Trim(), out int edad) ? edad : 0, // Si no es número, se pone 0
+                Contrasenia = txt_Contraseña.Text.Trim(),
+                Imagen = rutaRelativaImagen // Se asigna la ruta de la imagen
             };
-
-
 
             try
             {
+                // Se agrega el usuario llamando al controlador
                 _usuarioController.ctr_AgregarUsuario(usuario);
+
+                // Mensaje de éxito
                 MessageBox.Show("Usuario agregado exitosamente.");
+
+                // Se abre la ventana de login
                 FrmLogin ventana = new FrmLogin();
                 ventana.Show();
-                this.Hide(); // Cierra el formulario actual
 
+                // Se oculta el formulario actual
+                this.Hide();
             }
             catch (Exception ex)
             {
+                // Manejo de errores en caso de excepción
                 MessageBox.Show($"Error al agregar el usuario: {ex.Message}");
             }
         }
 
+        // Evento alternativo para cargar foto (btnCargarFoto)
         private void btnCargarFoto_Click(object sender, EventArgs e)
         {
             OpenFileDialog AbrirImagen = new OpenFileDialog();
 
-            //Abre el explorador de archivos
-
             if (AbrirImagen.ShowDialog() == DialogResult.OK)
             {
-                //Si el usuario selecciona un archivo, lo muestra en el PictureBox
+                // Muestra la imagen seleccionada en el PictureBox
                 pictureBox1.ImageLocation = AbrirImagen.FileName;
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                rutaRelativaImagen = AbrirImagen.FileName;
 
+                // Guarda la ruta seleccionada
+                rutaRelativaImagen = AbrirImagen.FileName;
             }
         }
     }

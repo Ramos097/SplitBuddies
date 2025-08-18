@@ -10,26 +10,34 @@ using Models;  // <- donde están Usuario y Reporte
 using MdOrientation = MigraDoc.DocumentObjectModel.Orientation;
 using MdVAlign = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment;
 
+// Namespace: organiza el código en un grupo lógico
 namespace LogicaNegocio.Services
 {
+    // Clase que se encarga de exportar reportes a PDF
     public class ExportarService
     {
+        // Método principal para exportar un reporte a un archivo PDF
         public static void Export(
-        string filePath,
-        Usuario usuario,
-        string tipoReporte,       // "Personal" o "Grupo"
-        string descriptorFecha,   // "agosto 2025" / "2025" / "01/08/2025 - 17/08/2025"
-        string descriptorGrupo,   // "12-MiGrupo" o ""
-        Reporte reporteDebo,
-        Reporte reporteMeDeben)
+        string filePath,          // Ruta donde se guardará el PDF
+        Usuario usuario,          // Usuario dueño del reporte
+        string tipoReporte,       // Puede ser "Personal" o "Grupo"
+        string descriptorFecha,   // Texto que describe el rango de fechas (ej: "Agosto 2025")
+        string descriptorGrupo,   // Texto que describe el grupo (ej: "12-MiGrupo"), si aplica
+        Reporte reporteDebo,      // Reporte de lo que el usuario debe
+        Reporte reporteMeDeben)   // Reporte de lo que le deben al usuario
         {
+            // Construye el documento en memoria
             var doc = BuildDocument(usuario, tipoReporte, descriptorFecha, descriptorGrupo, reporteDebo, reporteMeDeben);
 
+            // Prepara el renderer para generar el PDF
             var renderer = new PdfDocumentRenderer(unicode: true) { Document = doc };
             renderer.RenderDocument();
+
+            // Guarda el PDF en la ruta indicada
             renderer.PdfDocument.Save(filePath);
         }
 
+        // Construye el documento con toda la información del reporte
         private static Document BuildDocument(
             Usuario usuario,
             string tipoReporte,
@@ -39,26 +47,30 @@ namespace LogicaNegocio.Services
             Reporte reporteMeDeben)
         {
             var doc = new Document();
-            doc.Info.Title = "Reporte de gastos";
-            doc.Info.Author = "Tu app";
+            doc.Info.Title = "Reporte de gastos";  // Título del documento
+            doc.Info.Author = "Tu app";           // Autor del documento
 
+            // Configuración del estilo base
             var style = doc.Styles["Normal"];
             style.Font.Name = "Arial";
-            style.Font.Size = 9; // tamaño legible
+            style.Font.Size = 9;
 
+            // Sección del PDF
             var section = doc.AddSection();
-            section.PageSetup.PageFormat = PageFormat.A4;
-            section.PageSetup.Orientation = MdOrientation.Landscape;
+            section.PageSetup.PageFormat = PageFormat.A4;         // tamaño A4
+            section.PageSetup.Orientation = MdOrientation.Landscape; // horizontal
             section.PageSetup.LeftMargin = Unit.FromCentimeter(1.5);
             section.PageSetup.RightMargin = Unit.FromCentimeter(1.5);
             section.PageSetup.TopMargin = Unit.FromCentimeter(1.5);
             section.PageSetup.BottomMargin = Unit.FromCentimeter(1.5);
 
+            // ===== TÍTULO =====
             var titulo = section.AddParagraph("Reporte de gastos");
             titulo.Format.Font.Size = 15;
             titulo.Format.Font.Bold = true;
             titulo.Format.SpaceAfter = Unit.FromPoint(6);
 
+            // ===== INFORMACIÓN GENERAL =====
             var pInfo = section.AddParagraph(
                 $"Usuario: {usuario?.NombreCompleto} ({usuario?.Identificacion})\n" +
                 $"Tipo: {tipoReporte}{(string.IsNullOrWhiteSpace(descriptorGrupo) ? "" : $" | Grupo: {descriptorGrupo}")}\n" +
@@ -66,6 +78,7 @@ namespace LogicaNegocio.Services
                 $"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}");
             pInfo.Format.SpaceAfter = Unit.FromPoint(8);
 
+            // ===== BLOQUE "ME DEBEN" =====
             if (reporteMeDeben?.DatosGastos?.Any() == true)
                 AddReportBlock(section, "ME DEBEN", reporteMeDeben, "Total que me deben", isMeDeben: true);
             else
@@ -73,30 +86,35 @@ namespace LogicaNegocio.Services
 
             section.AddParagraph().AddLineBreak();
 
+            // ===== BLOQUE "DEBO" =====
             if (reporteDebo?.DatosGastos?.Any() == true)
                 AddReportBlock(section, "DEBO", reporteDebo, "Total que debo", isMeDeben: false);
             else
                 section.AddParagraph("DEBO: sin datos").Format.SpaceAfter = Unit.FromPoint(8);
 
+            // Pie de página
             section.Footers.Primary.AddParagraph("Documento generado automáticamente").Format.Font.Size = 7.5;
 
             return doc;
         }
 
+        // Método auxiliar que agrega un bloque de reporte (tabla de datos) a la sección
         private static void AddReportBlock(Section section, string titulo, Reporte reporte, string totalEtiqueta, bool isMeDeben)
         {
+            // ===== ENCABEZADO DEL BLOQUE =====
             var head = section.AddParagraph(titulo);
             head.Format.Font.Size = 12;
             head.Format.Font.Bold = true;
             head.Format.SpaceBefore = Unit.FromPoint(4);
             head.Format.SpaceAfter = Unit.FromPoint(6);
 
+            // ===== TABLA =====
             var table = section.AddTable();
             table.Borders.Width = 0.5;
-            table.KeepTogether = false;                            // permite romper entre páginas
+            table.KeepTogether = false;    // permite que la tabla se divida entre páginas
             table.Format.Font.Size = 9;
 
-            // ===== Anchos fijos que caben en A4 Landscape con márgenes de 1.5 cm (total ≈ 26.0 cm) =====
+            // Definición de las columnas de la tabla (ancho fijo en cm)
             table.AddColumn(Unit.FromCentimeter(2.2)); // Grupo
             table.AddColumn(Unit.FromCentimeter(2.0)); // Fecha
             table.AddColumn(Unit.FromCentimeter(1.8)); // Tipo
@@ -107,8 +125,9 @@ namespace LogicaNegocio.Services
             table.AddColumn(Unit.FromCentimeter(2.2)); // Debo/Me deben
             table.AddColumn(Unit.FromCentimeter(3.8)); // Deudores
 
+            // ===== FILA DE ENCABEZADOS =====
             var header = table.AddRow();
-            header.HeadingFormat = true;               // repetir encabezado en cada página
+            header.HeadingFormat = true;       // se repetirá en cada página
             header.Shading.Color = Colors.LightGray;
             header.Format.Font.Bold = true;
 
@@ -122,18 +141,20 @@ namespace LogicaNegocio.Services
             header.Cells[7].AddParagraph(isMeDeben ? "Me deben" : "Debo");
             header.Cells[8].AddParagraph("Deudores");
 
-            // Alineaciones horizontales
+            // Alineación horizontal
             for (int c = 0; c < table.Columns.Count; c++)
                 table.Columns[c].Format.Alignment = ParagraphAlignment.Left;
             table.Columns[6].Format.Alignment = ParagraphAlignment.Right; // Monto
             table.Columns[7].Format.Alignment = ParagraphAlignment.Right; // Debo/Me deben
 
-            var cultura = new CultureInfo("es-CR");
+            var cultura = new CultureInfo("es-CR"); // para formato monetario en colones
 
+            // ===== FILAS DE DATOS =====
             foreach (var r in reporte.DatosGastos)
             {
                 var row = table.AddRow();
-                // Alineación vertical por celda (arriba)
+
+                // Alineación vertical arriba
                 for (int i = 0; i < row.Cells.Count; i++)
                     row.Cells[i].VerticalAlignment = MdVAlign.Top;
 
@@ -142,12 +163,13 @@ namespace LogicaNegocio.Services
                 row.Cells[2].AddParagraph(reporte.Tipo ?? "");
                 row.Cells[3].AddParagraph(r.Registro?.ToString() ?? "");
                 row.Cells[4].AddParagraph(r.Gasto?.ToString() ?? "");
-                row.Cells[5].AddParagraph(r.Descripcion ?? ""); // envuelve
+                row.Cells[5].AddParagraph(r.Descripcion ?? "");
                 row.Cells[6].AddParagraph((r.TotalGasto).ToString("C2", cultura));
                 row.Cells[7].AddParagraph(((isMeDeben ? r.MeDeben : r.Debo)).ToString("C2", cultura));
                 row.Cells[8].AddParagraph(r.Deudores ?? "");
             }
 
+            // ===== TOTAL DEL BLOQUE =====
             var total = section.AddParagraph();
             total.Format.SpaceBefore = Unit.FromPoint(4);
             total.Format.Font.Bold = true;

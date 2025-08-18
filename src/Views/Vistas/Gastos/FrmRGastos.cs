@@ -18,72 +18,78 @@ namespace Views.Gastos
 {
     public partial class FrmRGastos : UserControl
     {
+        // Usuario actualmente logeado
         private readonly Usuario _usuario;
+
+        // Controlador para manejar operaciones de gastos
         private readonly IGastosController _gastosController;
+
+        // Controlador para manejar operaciones de invitaciones (miembros de grupos)
         private readonly IInvitacionesController _invitacionesController;
+
+        // Constructor para registrar un gasto nuevo
         public FrmRGastos(Usuario UsuarioLogeado)
         {
-            InitializeComponent();
-            _usuario = UsuarioLogeado;
-            _gastosController = new GastosController();
-            _invitacionesController = new InvitacionesController();
-            CargarGruposActivos();
-            btnActualizar.Enabled = false;
-            btnPagar.Enabled = true;
+            InitializeComponent(); // Inicializa componentes gráficos
+            _usuario = UsuarioLogeado; // Guarda el usuario actual
+            _gastosController = new GastosController(); // Instancia controlador de gastos
+            _invitacionesController = new InvitacionesController(); // Instancia controlador de invitaciones
+            CargarGruposActivos(); // Carga grupos en los que participa el usuario
+
+            // Habilita o deshabilita botones según la acción
+            btnActualizar.Enabled = false; // No se puede actualizar en un gasto nuevo
+            btnPagar.Enabled = true; // Se habilita registrar un nuevo gasto
         }
 
+        // Campo para guardar el ID del gasto cuando se está editando
         private int Idgasto;
+
+        // Campo para almacenar el gasto en edición
         private readonly Gasto gastoEditar;
+
+        // Constructor para editar un gasto existente
         public FrmRGastos(int idGasto, Usuario UsuarioLogeado)
         {
             InitializeComponent();
             _usuario = UsuarioLogeado;
-            Idgasto = idGasto;
+            Idgasto = idGasto; // Se guarda el ID del gasto que se va a editar
             _gastosController = new GastosController();
             _invitacionesController = new InvitacionesController();
-            gastoEditar = _gastosController.ctr_ObtenerGastoporID(Idgasto);
-            CargarGruposActivos();
-            CargarDatosGasto();
-            btnActualizar.Enabled = true;
-            btnPagar.Enabled = false;
 
+            // Se obtiene el gasto que se va a editar
+            gastoEditar = _gastosController.ctr_ObtenerGastoporID(Idgasto);
+
+            CargarGruposActivos(); // Se cargan los grupos
+            CargarDatosGasto();    // Se cargan los datos en los controles
+
+            // Configuración de botones
+            btnActualizar.Enabled = true; // Ahora se permite actualizar
+            btnPagar.Enabled = false;     // No se permite registrar uno nuevo
         }
 
-
-
+        // Método que carga la información de un gasto existente en los campos
         private void CargarDatosGasto()
         {
-
             txtNombreGasto.Text = gastoEditar.Nombre;
             txtDescripcion.Text = gastoEditar.Descripcion;
             txtMonto.Text = gastoEditar.Monto.ToString();
             dtpFecha.Value = gastoEditar.Fecha;
 
-
+            // Selecciona el grupo correcto en el ComboBox
             foreach (var item in cbGrupos.Items)
             {
                 string[] partes = item.ToString().Split('-');
                 int idGrupo = Convert.ToInt32(partes[0]);
+
                 if (gastoEditar.idGrupo == idGrupo)
                 {
                     cbGrupos.SelectedItem = item;
                     break;
                 }
             }
-
-
-
-
-
         }
 
-
-
-
-
-
-
-
+        // Método que carga los grupos activos del usuario en el ComboBox
         private void CargarGruposActivos()
         {
             var grupos = new List<Grupo>();
@@ -92,41 +98,40 @@ namespace Views.Gastos
 
             if (grupos.Count == 0)
             {
-
                 MessageBox.Show("NO TIENE GRUPOS REGISTRADOS", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // Agrega los grupos al ComboBox en formato "Id-Nombre"
             foreach (var grupo in grupos)
             {
-
                 cbGrupos.Items.Add(grupo.Id + "-" + grupo.Nombre);
             }
-
-
-
-
-
         }
 
-
+        // Evento del botón Pagar → registra un gasto nuevo
         private void btnPagar_Click(object sender, EventArgs e)
         {
-
             var miembrosQueDeben = new List<string>();
+
+            // Obtiene los usuarios seleccionados en la lista
             foreach (var usuario in clbMiembros.CheckedItems)
             {
                 string[] partes = usuario.ToString().Split('-');
                 string identificacionDeben = partes[0].Trim();
+
+                // Se excluye al usuario que registra el gasto
                 if (identificacionDeben != _usuario.Identificacion)
                 {
                     miembrosQueDeben.Add(identificacionDeben);
                 }
             }
 
+            // Se obtiene el grupo seleccionado
             string[] parteGrupoCb = cbGrupos.SelectedItem.ToString().Split('-');
             int idGrupoCb = Convert.ToInt32(parteGrupoCb[0]);
 
+            // Se crea un nuevo objeto gasto con los datos ingresados
             Gasto gasto = new Gasto
             {
                 id = _gastosController.ctr_ObtenerUltimoIdGasto(),
@@ -139,26 +144,28 @@ namespace Views.Gastos
                 MiembrosQueDeben = miembrosQueDeben
             };
 
+            // Se registra el gasto en el controlador
             _gastosController.ctr_RegistrarGasto(gasto);
             MessageBox.Show("Gasto registrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-
-
-
         }
 
+        // Evento cuando se selecciona un grupo en el ComboBox
         private void cbGrupos_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Se obtiene el ID del grupo seleccionado
             string[] partes = cbGrupos.SelectedItem.ToString().Split('-');
             int idGrupo = Convert.ToInt32(partes[0]);
+
+            // Se obtienen los usuarios del grupo
             var usuarios = _invitacionesController.crt_ObtenerUsuariosGrupo(idGrupo);
-            //limpiar listbox lbmiembros
+
+            // Limpia la lista de miembros antes de cargar los nuevos
             clbMiembros.Items.Clear();
 
+            // Se agregan los usuarios al CheckedListBox
             foreach (var usuario in usuarios)
             {
-                //marcar al usuario logeado y desmarcar los demás
+                // Marca automáticamente al usuario logeado
                 if (usuario.Identificacion == _usuario.Identificacion)
                 {
                     clbMiembros.SetItemChecked(clbMiembros.Items.Add(usuario.Identificacion + " - " + usuario.NombreCompleto), true);
@@ -167,10 +174,9 @@ namespace Views.Gastos
                 {
                     clbMiembros.SetItemChecked(clbMiembros.Items.Add(usuario.Identificacion + " - " + usuario.NombreCompleto), false);
                 }
-
-
             }
 
+            // Si es edición, marcar los usuarios que deben o que registraron el gasto
             if (gastoEditar != null)
             {
                 for (int i = 0; i < clbMiembros.Items.Count; i++)
@@ -188,27 +194,30 @@ namespace Views.Gastos
                     }
                 }
             }
-
-
-
         }
 
+        // Evento del botón Actualizar → actualiza un gasto existente
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             var miembrosQueDeben = new List<string>();
+
+            // Obtiene los usuarios seleccionados en la lista
             foreach (var usuario in clbMiembros.CheckedItems)
             {
                 string[] partes = usuario.ToString().Split('-');
                 string identificacionDeben = partes[0].Trim();
+
                 if (identificacionDeben != _usuario.Identificacion)
                 {
                     miembrosQueDeben.Add(identificacionDeben);
                 }
             }
 
+            // Se obtiene el grupo seleccionado
             string[] parteGrupoCb = cbGrupos.SelectedItem.ToString().Split('-');
             int idGrupoCb = Convert.ToInt32(parteGrupoCb[0]);
 
+            // Se crea un objeto gasto con los datos modificados
             Gasto gasto = new Gasto
             {
                 id = gastoEditar.id,
@@ -221,11 +230,9 @@ namespace Views.Gastos
                 MiembrosQueDeben = miembrosQueDeben
             };
 
+            // Se actualiza el gasto
             _gastosController.ctr_ActualizarGasto(gasto);
             MessageBox.Show("Gasto Actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-
         }
     }
 }

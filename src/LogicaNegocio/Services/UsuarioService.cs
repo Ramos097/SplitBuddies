@@ -10,80 +10,51 @@ using Proyecto_1.Interfaces;
 
 namespace Proyecto_1.Services
 {
+    // Servicio que gestiona la lógica relacionada con los usuarios.
+    // Implementa la interfaz IUsuario y maneja persistencia en un archivo JSON.
     public class UsuarioService : IUsuario
     {
+        // Ruta del archivo donde se guardan los usuarios en formato JSON
         private readonly string _rutaArchivo;
 
+        // Constructor: configura la ruta al archivo de usuarios.json
         public UsuarioService()
         {
             // Ruta base: bin/Debug/net9.0-windows → subimos 4 niveles hasta 'src'
             string? basePath = AppContext.BaseDirectory;
             string? srcPath = Directory.GetParent(basePath)?.Parent?.Parent?.Parent?.Parent?.FullName;
 
-            // Armamos ruta completa a LogicaNegocio\Almacenamiento\usuarios.json
+            // Armamos la ruta completa hacia LogicaNegocio\Almacenamiento
             string almacenamientoPath = Path.Combine(srcPath!, "LogicaNegocio", "Almacenamiento");
 
-            // Asegurarse que la carpeta exista
+            // Asegurarse que la carpeta exista (si no, la crea)
             if (!Directory.Exists(almacenamientoPath))
                 Directory.CreateDirectory(almacenamientoPath);
 
+            // Definimos la ruta final del archivo usuarios.json
             _rutaArchivo = Path.Combine(almacenamientoPath, "usuarios.json");
         }
 
+        // ================================================================
+        // -------------------- MÉTODOS PÚBLICOS ---------------------------
+        // ================================================================
 
+        // Agrega un usuario al archivo JSON
         public void AgregarUsuario(Usuario usuario)
         {
-            var usuarios = LeerArchivo();
-            usuario.Imagen = CopiarImagen(usuario.Imagen); // Copiamos la imagen a la carpeta de almacenamiento
-            usuarios.Add(usuario);
-            EscribirArchivo(usuarios);
-
+            var usuarios = LeerArchivo(); // Se leen los usuarios actuales
+            usuario.Imagen = CopiarImagen(usuario.Imagen); // Copiamos la imagen del usuario
+            usuarios.Add(usuario); // Se agrega el nuevo usuario
+            EscribirArchivo(usuarios); // Se actualiza el archivo con el nuevo listado
         }
 
+        // Devuelve todos los usuarios registrados
         public List<Usuario> ObtenerUsuarios()
         {
             return LeerArchivo();
         }
 
-        private List<Usuario> LeerArchivo()
-        {
-            if (!File.Exists(_rutaArchivo))
-            {
-                return new List<Usuario>();
-            }
-
-            try
-            {
-                var json = File.ReadAllText(_rutaArchivo);
-                return JsonSerializer.Deserialize<List<Usuario>>(json) ?? new List<Usuario>();
-            }
-            catch (Exception)
-            {
-
-                return new List<Usuario>();
-            }
-
-
-
-        }
-
-        private void EscribirArchivo(List<Usuario> usuarios)
-        {
-            try
-            {
-                var opciones = new JsonSerializerOptions
-                {
-                    WriteIndented = true // Para que el JSON sea legible
-                };
-                var json = JsonSerializer.Serialize(usuarios, opciones);
-                File.WriteAllText(_rutaArchivo, json);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al escribir en el archivo: " + ex.Message);
-            }
-        }
-
+        // Verifica si la identificación ya existe
         public bool ValidarIdentificacionRepetida(string id)
         {
             List<Usuario> usuarios = ObtenerUsuarios();
@@ -94,9 +65,11 @@ namespace Proyecto_1.Services
                     return true; // Identificación repetida
                 }
             }
-            return false; // Identificación no repetida
+            return false; // Identificación única
         }
 
+        // Copia la imagen del usuario a la carpeta de almacenamiento "imgs"
+        // y devuelve la ruta relativa de la copia.
         public string CopiarImagen(string rutaOriginal)
         {
             if (string.IsNullOrWhiteSpace(rutaOriginal) || !File.Exists(rutaOriginal))
@@ -106,15 +79,18 @@ namespace Proyecto_1.Services
             string? basePath = AppContext.BaseDirectory;
             string? srcPath = Directory.GetParent(basePath)?.Parent?.Parent?.Parent?.Parent?.FullName;
 
+            // Carpeta destino: LogicaNegocio\Almacenamiento\imgs
             string carpetaDestino = Path.Combine(srcPath!, "LogicaNegocio", "Almacenamiento", "imgs");
 
+            // Crear carpeta si no existe
             if (!Directory.Exists(carpetaDestino))
                 Directory.CreateDirectory(carpetaDestino);
 
+            // Nombre del archivo original
             string nombreArchivo = Path.GetFileName(rutaOriginal);
             string destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
 
-            // Evitar sobrescritura
+            // Evitar sobrescritura: si ya existe, se genera un nuevo nombre con timestamp
             if (File.Exists(destinoFinal))
             {
                 string ext = Path.GetExtension(nombreArchivo);
@@ -123,12 +99,14 @@ namespace Proyecto_1.Services
                 destinoFinal = Path.Combine(carpetaDestino, nombreArchivo);
             }
 
+            // Copiar archivo
             File.Copy(rutaOriginal, destinoFinal);
 
-            // Devolvemos solo la ruta relativa
+            // Devolver ruta relativa para guardar en el JSON
             return Path.Combine("imgs", nombreArchivo);
         }
 
+        // Valida las credenciales de un usuario (login)
         public Usuario ValidarAutenticacion(string id, string pass)
         {
             List<Usuario> usuarios = ObtenerUsuarios();
@@ -136,12 +114,13 @@ namespace Proyecto_1.Services
             {
                 if (usuario.Identificacion == id && usuario.Contrasenia == pass)
                 {
-                    return usuario; // Autenticación exitosa
+                    return usuario; // Autenticación correcta
                 }
             }
-            return null; // Autenticación fallida
+            return null; // Falló autenticación
         }
 
+        // Busca un usuario por su identificación
         public Usuario ObtenerUsuarioById(string identificacion)
         {
             List<Usuario> usuarios = ObtenerUsuarios();
@@ -152,11 +131,14 @@ namespace Proyecto_1.Services
                     return usuario; // Usuario encontrado
                 }
             }
+            // Si no existe, lanza una excepción
             throw new Exception("Usuario no encontrado con la identificación proporcionada.");
         }
 
-
-        /*public void AgregarGrupoUsuario(string idUsuario, GrupoAsociado nuevoGrupo)
+        /* 
+        // Método comentado: Asociar un grupo a un usuario.
+        // Permitiría agregar grupos dentro del listado personal de cada usuario.
+        public void AgregarGrupoUsuario(string idUsuario, GrupoAsociado nuevoGrupo)
         {
             List<Usuario> usuarios = LeerArchivo();
             Usuario usuario = usuarios.FirstOrDefault(u => u.Identificacion == idUsuario);
@@ -164,12 +146,53 @@ namespace Proyecto_1.Services
             {
                 usuario.GruposAsociados.Add(nuevoGrupo);
                 EscribirArchivo(usuarios);
-                
             }
             else
             {
                 throw new Exception("Usuario no encontrado.");
             }
-        }*/
+        } 
+        */
+
+        // ================================================================
+        // -------------------- MÉTODOS PRIVADOS --------------------------
+        // ================================================================
+
+        // Lee el archivo usuarios.json y devuelve la lista de usuarios
+        private List<Usuario> LeerArchivo()
+        {
+            if (!File.Exists(_rutaArchivo))
+            {
+                return new List<Usuario>(); // Si no existe, retorna lista vacía
+            }
+
+            try
+            {
+                var json = File.ReadAllText(_rutaArchivo);
+                return JsonSerializer.Deserialize<List<Usuario>>(json) ?? new List<Usuario>();
+            }
+            catch (Exception)
+            {
+                return new List<Usuario>(); // Si ocurre error, retorna lista vacía
+            }
+        }
+
+        // Escribe la lista de usuarios en el archivo usuarios.json
+        private void EscribirArchivo(List<Usuario> usuarios)
+        {
+            try
+            {
+                var opciones = new JsonSerializerOptions
+                {
+                    WriteIndented = true // Para que el JSON quede legible
+                };
+                var json = JsonSerializer.Serialize(usuarios, opciones);
+                File.WriteAllText(_rutaArchivo, json);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al escribir en el archivo: " + ex.Message);
+            }
+        }
     }
 }
