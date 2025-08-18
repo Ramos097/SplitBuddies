@@ -1,5 +1,5 @@
-﻿using Models;
-using Proyecto_1.Controllers;
+﻿using Controllers.Controladores;
+using Models;
 using Proyecto_1.Interfaces;
 using Proyecto_1.Services;
 using System;
@@ -18,13 +18,14 @@ namespace Views.Vistas.Grupos
         private readonly GrupoController _grupoController;
         private readonly IUsuarioController _usuarioController;
         private string rutaImagenSeleccionada;
+        
 
         public FrmRGrupos(Usuario usuarioLogeado)
         {
             InitializeComponent();
             _usuario = usuarioLogeado;
 
-            _grupoController = new GrupoController(new LogicaNegocio.Services.GrupoService());
+            _grupoController = new GrupoController();
             _usuarioController = new UsuarioController();
 
             this.Load += FrmRGrupos_Load;
@@ -33,61 +34,21 @@ namespace Views.Vistas.Grupos
         private void FrmRGrupos_Load(object sender, EventArgs e)
         {
             // Llenar usuarios en clbMiembros
-            var usuarios = _usuarioController.ObtenerTodosLosUsuarios();
+            var usuarios = _usuarioController.ctr_ObtenerUsuarios();
             clbMiembros.Items.Clear();
-            foreach (var usuario in usuarios)
+            foreach (Usuario usuario in usuarios)
             {
-                clbMiembros.Items.Add(usuario, false);
-            }
-        }
-
-        private void btnSeleccionarImagen_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp";
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                rutaImagenSeleccionada = ofd.FileName;
-                pbImagenGrupo.Image = Image.FromFile(rutaImagenSeleccionada);
-                pbImagenGrupo.SizeMode = PictureBoxSizeMode.StretchImage;
-            }
-        }
-
-        private void btnCrearGrupo_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtNombreGrupo.Text) || string.IsNullOrEmpty(rutaImagenSeleccionada))
-            {
-                MessageBox.Show("Debe ingresar un nombre y seleccionar una imagen.");
-                return;
+                if (usuario.Identificacion.Equals(_usuario.Identificacion))
+                {
+                    clbMiembros.Items.Add(usuario.Identificacion + "-" + usuario.NombreCompleto, true);
+                }
+                else
+                {
+                    clbMiembros.Items.Add(usuario.Identificacion + "-" + usuario.NombreCompleto, false);
+                }
+                
             }
 
-            var miembros = clbMiembros.CheckedItems.Cast<Usuario>().ToList();
-
-            if (miembros.Count == 0)
-            {
-                MessageBox.Show("Debe seleccionar al menos un miembro.");
-                return;
-            }
-
-            string carpetaDestino = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "imagenes_grupo");
-            if (!Directory.Exists(carpetaDestino))
-                Directory.CreateDirectory(carpetaDestino);
-
-            string nombreImagen = Path.GetFileName(rutaImagenSeleccionada);
-            string rutaFinal = Path.Combine(carpetaDestino, nombreImagen);
-            File.Copy(rutaImagenSeleccionada, rutaFinal, true);
-
-            Grupo nuevoGrupo = new Grupo
-            {
-                Id = Guid.NewGuid().ToString(),
-                Nombre = txtNombreGrupo.Text.Trim(),
-                Imagen = rutaFinal,
-                Miembros = miembros
-            };
-
-            _grupoController.CrearGrupo(nuevoGrupo);
-            MessageBox.Show("Grupo creado exitosamente.");
         }
 
         private void btnSeleccionarImagen_Click_1(object sender, EventArgs e)
@@ -104,6 +65,8 @@ namespace Views.Vistas.Grupos
             pbImagenGrupo.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
+
+
         private void btnCrearGrupo_Click_1(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtNombreGrupo.Text) || string.IsNullOrEmpty(rutaImagenSeleccionada))
@@ -112,7 +75,7 @@ namespace Views.Vistas.Grupos
                 return;
             }
 
-            var miembros = clbMiembros.CheckedItems.Cast<Usuario>().ToList();
+            var miembros = clbMiembros.CheckedItems.Cast<string>().ToList();
 
             if (miembros.Count == 0)
             {
@@ -130,26 +93,47 @@ namespace Views.Vistas.Grupos
 
             Grupo nuevoGrupo = new Grupo
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = _grupoController.ctr_ObtenerUltimoIdGrupo(),
                 Nombre = txtNombreGrupo.Text.Trim(),
                 Imagen = rutaFinal,
-                Miembros = miembros
             };
+            List<string> miembrosSeleccionados = ObtenerMiembrosSeleccionados(miembros);
 
-            _grupoController.CrearGrupo(nuevoGrupo);
+
+
+
+
+
+            _grupoController.ctr_CrearGrupo(nuevoGrupo, miembrosSeleccionados,_usuario.Identificacion);
+        
             MessageBox.Show("Grupo creado exitosamente.");
 
-            // 🔁 Abre el menú principal
-            MenuPrincipal menu = new MenuPrincipal(); // puedes pasarle el usuario si lo necesitas
-            menu.Show();
 
-            // 🔒 Cierra el formulario actual
-            this.Close();
         }
 
-        private void Close()
+
+        private List<string> ObtenerMiembrosSeleccionados(List<string> miembrosMarcados)
         {
-            throw new NotImplementedException();
+            List<string> miembrosSeleccionados = new List<string>();
+            foreach (var miembro in miembrosMarcados)
+            {
+                // 123 -Juan Perez
+                //0  -  1
+                string[] partes = miembro.Split('-');
+                if (partes.Length == 2)
+                {
+                    string identificacion = partes[0].Trim();
+                    miembrosSeleccionados.Add(identificacion);
+
+                }
+            }
+            return miembrosSeleccionados;
         }
+
+
+
+
+
+        
     }
 }

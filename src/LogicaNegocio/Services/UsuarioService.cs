@@ -63,11 +63,11 @@ namespace Proyecto_1.Services
                 return new List<Usuario>();
             }
 
-            
-            
+
+
         }
 
-        private void EscribirArchivo (List<Usuario> usuarios)
+        private void EscribirArchivo(List<Usuario> usuarios)
         {
             try
             {
@@ -142,9 +142,34 @@ namespace Proyecto_1.Services
             return null; // Autenticación fallida
         }
 
-        public object ObtenerTodosLosUsuarios()
+        public Usuario ObtenerUsuarioById(string identificacion)
         {
-            throw new NotImplementedException();
+            List<Usuario> usuarios = ObtenerUsuarios();
+            foreach (var usuario in usuarios)
+            {
+                if (usuario.Identificacion == identificacion)
+                {
+                    return usuario; // Usuario encontrado
+                }
+            }
+            throw new Exception("Usuario no encontrado con la identificación proporcionada.");
         }
+
+
+        /*public void AgregarGrupoUsuario(string idUsuario, GrupoAsociado nuevoGrupo)
+        {
+            List<Usuario> usuarios = LeerArchivo();
+            Usuario usuario = usuarios.FirstOrDefault(u => u.Identificacion == idUsuario);
+            if (usuario != null)
+            {
+                usuario.GruposAsociados.Add(nuevoGrupo);
+                EscribirArchivo(usuarios);
+                
+            }
+            else
+            {
+                throw new Exception("Usuario no encontrado.");
+            }
+        }*/
     }
 }

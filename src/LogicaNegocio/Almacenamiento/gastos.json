@@ -1,32 +1,43 @@
 [
   {
-    "Identificacion": "123",
-    "Descripcion": "pago de agua\r\n",
-    "Monto": 12500,
-    "Fecha": "2025-07-29T11:38:06.6935981-06:00"
+    "id": 1,
+    "Nombre": "Viaje A la Playa",
+    "idGrupo": 1,
+    "idUsuarioRegistraGasto": "123",
+    "Descripcion": "Pago de pasajes y comida",
+    "Monto": 30000,
+    "Fecha": "2025-08-15T17:44:00.916",
+    "MiembrosQueDeben": [
+      "321",
+      "789"
+    ]
   },
   {
-    "Identificacion": "123",
-    "Descripcion": "pago de luz",
-    "Monto": 13200,
-    "Fecha": "2025-07-29T11:39:47.5990468-06:00"
+    "id": 2,
+    "Nombre": "Viaje A la Monta\u00F1a",
+    "idGrupo": 2,
+    "idUsuarioRegistraGasto": "123",
+    "Descripcion": "Pago de pasajes y comida",
+    "Monto": 40000,
+    "Fecha": "2024-01-01T17:44:00.916",
+    "MiembrosQueDeben": [
+      "321",
+      "789",
+      "987"
+    ]
   },
   {
-    "Identificacion": "123",
-    "Descripcion": "pago de agua",
-    "Monto": 12000,
-    "Fecha": "2025-07-29T11:41:16.3573966-06:00"
-  },
-  {
-    "Identificacion": "123",
-    "Descripcion": "ad",
-    "Monto": 123,
-    "Fecha": "2025-07-29T11:42:19.8195452-06:00"
-  },
-  {
-    "Identificacion": "12740099",
-    "Descripcion": "pago de agua",
-    "Monto": 12300,
-    "Fecha": "2025-07-30T16:14:36.1182574-06:00"
+    "id": 3,
+    "Nombre": "Viaje en cleta",
+    "idGrupo": 3,
+    "idUsuarioRegistraGasto": "321",
+    "Descripcion": "La cleta cara",
+    "Monto": 80000,
+    "Fecha": "2025-05-24T17:50:41.967",
+    "MiembrosQueDeben": [
+      "123",
+      "789",
+      "987"
+    ]
   }
 ]

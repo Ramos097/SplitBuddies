@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Controllers.Controladores;
 using Models;
 using Proyecto_1;
-using Proyecto_1.Controllers;
 using Proyecto_1.Interfaces;
 using Views.Vistas.Menus;
 
@@ -45,7 +45,7 @@ namespace Views.Vistas.Auth
 
                 try
                 {
-                    Usuario usuario = _usuarioController.ValidarAutenticacion(txtId.Text.Trim(), txtPass.Text.Trim());
+                    Usuario usuario = _usuarioController.ctr_ValidarAutenticacion(txtId.Text.Trim(), txtPass.Text.Trim());
                     MenuPrincipal ventana = new MenuPrincipal(usuario);
                     ventana.Show();
                     this.Hide();

@@ -13,6 +13,11 @@ namespace Proyecto_1.Interfaces
         string CopiarImagen(string rutaOriginal);
 
         Usuario ValidarAutenticacion(string id, string pass);
-        object ObtenerTodosLosUsuarios();
+        Usuario ObtenerUsuarioById(string identificacion);
+
+        
+
+       //void AgregarGrupoUsuario(string idUsuario, GrupoAsociado nuevoGrupo);
+
     }
 }

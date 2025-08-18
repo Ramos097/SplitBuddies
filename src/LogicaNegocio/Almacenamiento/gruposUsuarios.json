@@ -1,0 +1,57 @@
+[
+    {
+        "IdentificacionUsuario": "123",
+        "IdGrupo": 1,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "321",
+        "IdGrupo": 1,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "789",
+        "IdGrupo": 1,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "123",
+        "IdGrupo": 2,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "321",
+        "IdGrupo": 2,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "789",
+        "IdGrupo": 2,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "987",
+        "IdGrupo": 2,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "123",
+        "IdGrupo": 3,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "321",
+        "IdGrupo": 3,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "789",
+        "IdGrupo": 3,
+        "EstadoInvitacion": "ACTIVO"
+    },
+    {
+        "IdentificacionUsuario": "987",
+        "IdGrupo": 3,
+        "EstadoInvitacion": "ACTIVO"
+    }
+]

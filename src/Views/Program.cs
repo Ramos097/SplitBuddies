@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Proyecto_1;
-using Proyecto_1.Controllers;
 using Proyecto_1.Interfaces;
 using Proyecto_1.Services;
 using Views.Vistas.Auth;

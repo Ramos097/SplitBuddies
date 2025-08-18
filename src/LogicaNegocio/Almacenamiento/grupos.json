@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 1,
+    "Nombre": "Playa",
+    "Imagen": "C:\\Users\\rodri\\OneDrive\\Documentos\\Tecnicas de Programacion\\SplitBuddies\\SplitBuddies\\src\\Views\\bin\\Debug\\net9.0-windows\\imagenes_grupo\\s1600_MRP_7521_441463.jpg"
+  },
+  {
+    "Id": 2,
+    "Nombre": "Monta\u00F1a",
+    "Imagen": "C:\\Users\\rodri\\OneDrive\\Documentos\\Tecnicas de Programacion\\SplitBuddies\\SplitBuddies\\src\\Views\\bin\\Debug\\net9.0-windows\\imagenes_grupo\\s1600_MRP_7521_441463.jpg"
+  },
+  {
+    "Id": 3,
+    "Nombre": "Ciclismo",
+    "Imagen": "C:\\Users\\rodri\\OneDrive\\Documentos\\Tecnicas de Programacion\\SplitBuddies\\SplitBuddies\\src\\Views\\bin\\Debug\\net9.0-windows\\imagenes_grupo\\cool-4k-ultra-hd-nao22k6od4a4djyl.jpg"
+  }
+]

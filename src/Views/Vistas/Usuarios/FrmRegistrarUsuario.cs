@@ -1,5 +1,5 @@
+using Controllers.Controladores;
 using Models;
-using Proyecto_1.Controllers;
 using Proyecto_1.Interfaces;
 using Views.Vistas.Auth;
 
@@ -113,7 +113,7 @@ namespace Proyecto_1
                 return;
             }
 
-            if (_usuarioController.ValidarIdentificacionRepetida(txt_Id.Text.Trim()) == true)
+            if (_usuarioController.ctr_ValidarIdentificacionRepetida(txt_Id.Text.Trim()) == true)
             {
                 MessageBox.Show("La identificación ya está registrada. Por favor, ingrese una identificación diferente.");
                 return;
@@ -135,7 +135,7 @@ namespace Proyecto_1
 
             try
             {
-                _usuarioController.AgregarUsuario(usuario);
+                _usuarioController.ctr_AgregarUsuario(usuario);
                 MessageBox.Show("Usuario agregado exitosamente.");
                 FrmLogin ventana = new FrmLogin();
                 ventana.Show();
